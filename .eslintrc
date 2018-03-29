@@ -1,0 +1,11 @@
+{
+    "env": {
+        "node": true,
+        "es6": true
+    },
+    "globals": {
+        "module": true,
+        "require": true,
+        "artifacts": true
+    }
+}

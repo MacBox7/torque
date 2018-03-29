@@ -1,0 +1,39 @@
+[Default]
+files = dapp-private/**/*.sol, dapp-private/**/*.js, dapp-private/**/*.json
+ignore =
+    dapp-private/node_modules/**/*, dapp-private/build/**/*,
+    dapp-private/package-lock.json
+
+max_line_length = 79
+use_spaces = True
+
+[JavaScript]
+bears = ESLintBear, JSHintBear
+files = dapp-private/**/*.js
+jshint_config = .jshintrc
+
+[JSON]
+bears = JSONFormatBear
+files = dapp-private/**/*.json, private/genesis.json,
+        dapp-private/*.json
+default_actions = JSONFormatBear: ApplyPatchAction
+
+[bash]
+bears = ShellCheckBear
+files = private/**/*.sh
+
+[linelength]
+bears = LineLengthBear
+ignore_length_regex = ^.*https?://
+
+[LineCounting]
+enabled = False
+
+bears = LineCountBear
+max_lines_per_file = 1000
+
+[DOCS]
+bears = SpaceConsistencyBear, LineLengthBear
+files = README.md
+ignore_length_regex = ^.*https?://
+default_actions = SpaceConsistencyBear: ApplyPatchAction

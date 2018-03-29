@@ -1,0 +1,13 @@
+geth --identity "miner1" \
+     --networkid 42 \
+     --datadir "/media/ankit/Pandora's Box/torque/private/miner1" \
+     --nodiscover \
+     --mine \
+     --rpc \
+     --rpcport 8545 \
+     --rpcaddr 127.0.0.1 \
+     --rpccorsdomain "*" \
+     --rpcapi "eth,net,web3" \
+     --port 30303 \
+     --unlock 0 \
+     --password "/media/ankit/Pandora's Box/torque/private/miner1/password.sec"

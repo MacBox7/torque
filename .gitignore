@@ -1,0 +1,25 @@
+# Chain Data
+private/miner1/geth
+private/miner1/keystore
+private/miner2/geth
+private/miner2/keystore
+
+# Password files
+private/miner1/password.sec
+private/miner2/password.sec
+
+# Coala generated files
+*.orig
+
+# Node files
+node_modules/
+package-lock.json
+
+# Optional eslint cache
+.eslintcache
+
+# Truffle files
+dapp-private/build
+
+# User specific files
+contracts/

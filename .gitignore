@@ -20,6 +20,3 @@ package-lock.json
 
 # Truffle files
 dapp-private/build
-
-# User specific files
-contracts/

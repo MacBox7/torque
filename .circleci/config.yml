@@ -1,0 +1,46 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:8.0
+      
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+
+    working_directory: ~/torque
+
+    steps:
+      - checkout
+
+      - run:
+          name: "Checking Versions"
+          command: |
+            node --version
+            npm --version
+
+      - restore_cache:
+          keys:
+          - testing
+
+      - run:
+          name: install dependencies
+          command: |
+            sudo apt-get -y install software-properties-common
+            sudo apt-get install python3-pip python-dev build-essential
+            sudo pip3 install --upgrade pip
+            sudo apt-get -y install shellcheck
+            sudo pip3 install -I coala-bears
+            sudo npm install -g jshint
+            sudo npm install -g eslint
+
+      - save_cache:
+          paths:
+            - testing-dependencies
+          key: testing
+        
+      # run coala
+      - run: coala

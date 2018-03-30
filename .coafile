@@ -28,7 +28,6 @@ ignore_length_regex = ^.*https?://
 
 [LineCounting]
 enabled = False
-
 bears = LineCountBear
 max_lines_per_file = 1000
 
@@ -37,3 +36,8 @@ bears = SpaceConsistencyBear, LineLengthBear
 files = README.md
 ignore_length_regex = ^.*https?://
 default_actions = SpaceConsistencyBear: ApplyPatchAction
+
+[commit]
+bears = GitCommitBear
+shortlog_trailing_period = False
+shortlog_regex = ([^:]*|[^:]+: [A-Z0-9*].*)

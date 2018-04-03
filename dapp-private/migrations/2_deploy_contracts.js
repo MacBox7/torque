@@ -1,5 +1,6 @@
-var LedManager = artifacts.require("../contracts/DeviceStateManager.sol");
+var DeviceStateManager = artifacts.require(
+                         "../contracts/DeviceStateManager.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(LedManager);
+  deployer.deploy(DeviceStateManager);
 };

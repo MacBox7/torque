@@ -1,21 +1,26 @@
 [Default]
-files = dapp-private/**/*.sol, dapp-private/**/*.js, dapp-private/**/*.json
+files = dapp-private/**/*.sol, dapp-private/**/*.js, dapp-private/**/*.json,
+        dapp-public/**/*.sol, dapp-public/**/*.js, dapp-public/**/*.json
 ignore =
     dapp-private/node_modules/**/*, dapp-private/build/**/*,
-    dapp-private/package-lock.json
+    dapp-private/package-lock.json,
+    dapp-public/node_modules/**/*, dapp-public/build/**/*,
+    dapp-public/package-lock.json
 
 max_line_length = 79
 use_spaces = True
 
 [JavaScript]
 bears = ESLintBear, JSHintBear
-files = dapp-private/**/*.js
+files = dapp-private/**/*.js, dapp-public/**/*.js 
 jshint_config = .jshintrc
 
 [JSON]
 bears = JSONFormatBear
 files = dapp-private/**/*.json, private/genesis.json,
-        dapp-private/*.json
+        dapp-private/*.json,
+        dapp-public/**/*.json, public/genesis.json,
+        dapp-public/*.json
 default_actions = JSONFormatBear: ApplyPatchAction
 
 [bash]

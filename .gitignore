@@ -3,10 +3,16 @@ private/miner1/geth
 private/miner1/keystore
 private/miner2/geth
 private/miner2/keystore
+public/miner1/geth
+public/miner1/keystore
+public/miner2/geth
+public/miner2/keystore
 
 # Password files
 private/miner1/password.sec
 private/miner2/password.sec
+public/miner1/password.sec
+public/miner2/password.sec
 
 # Coala generated files
 *.orig
@@ -20,3 +26,4 @@ package-lock.json
 
 # Truffle files
 dapp-private/build
+dapp-public/build

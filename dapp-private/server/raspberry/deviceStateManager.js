@@ -21,7 +21,7 @@ module.exports = function (web3) {
     eventLogNewDevice.watch((error, result) => {
         if(!error) {
             logger.info("Device %s added with status %s", 
-                        result.args._ledAddress,
+                        result.args._deviceAddress,
                         result.args._status);
             logger.debug(result);
         }
@@ -33,7 +33,7 @@ module.exports = function (web3) {
     eventLogDeviceUpdate.watch((error, result) => {
         if(!error) {
             logger.info("Device %s updated with status %s",
-                        result.args._ledAddress,
+                        result.args._deviceAddress,
                         result.args._status);
             logger.debug(result);
         }
@@ -44,7 +44,7 @@ module.exports = function (web3) {
 
     eventLogDeleteDevice.watch((error, result) => {
         if(!error) {
-            logger.info("Device %s deleted", result.args._ledAddress);
+            logger.info("Device %s deleted", result.args._deviceAddress);
             logger.debug(result);
         }
         else {
@@ -55,7 +55,7 @@ module.exports = function (web3) {
     eventLogDeviceOn.watch((error, result) => {
         if(!error) {
             //TODO: Implement turnDeviceOn()
-            logger.info("Device %s is on", result.args._ledAddress);
+            logger.info("Device %s is on", result.args._deviceAddress);
             logger.debug(result);
         }
         else {
@@ -67,7 +67,7 @@ module.exports = function (web3) {
         if(!error) {
             //TODO: Implement turnDeviceOff()
             logger.info("Device %s is off",
-                        result.args._ledAddress,
+                        result.args._deviceAddress,
                         result.args._status);
             logger.debug(result);
         }

@@ -16,55 +16,57 @@ contract DeviceStateManager is Ownable {
   mapping(address => Device) private devices;
   address[] private deviceIndex;
 
-  event LogNewDevice(address indexed _ledAddress, uint _index, bool _status);
-  event LogDeviceUpdate(address indexed _ledAddress, uint _index, bool status);
-  event LogDeviceOn(address indexed _ledAddress, uint _index);
-  event LogDeviceOff(address indexed _ledAddress, uint _index);
-  event LogDeleteDevice(address indexed _ledAddress, uint _index);
+  event LogNewDevice(address indexed _deviceAddress,
+                     uint _index, bool _status);
+  event LogDeviceUpdate(address indexed _deviceAddress,
+                        uint _index, bool status);
+  event LogDeviceOn(address indexed _deviceAddress, uint _index);
+  event LogDeviceOff(address indexed _deviceAddress, uint _index);
+  event LogDeleteDevice(address indexed _deviceAddress, uint _index);
   
   /**
    * @dev Checks if device is part of home network 
    */
-  function isDevice(address _ledAddress) 
+  function isDevice(address _deviceAddress) 
   public 
   constant 
   returns(bool _isIndeed)
   {
     if(deviceIndex.length == 0) return false;
-    return (deviceIndex[devices[_ledAddress].index] == _ledAddress);
+    return (deviceIndex[devices[_deviceAddress].index] == _deviceAddress);
   }
   
   /**
    * @dev Adds device to home network
    */
-  function addDevice(address _ledAddress, bool _status) 
+  function addDevice(address _deviceAddress, bool _status) 
   public 
   onlyOwner 
   returns(uint _index)
   {
-    require(!isDevice(_ledAddress));
-    devices[_ledAddress].status = false;
-    devices[_ledAddress].index = deviceIndex.push(_ledAddress) - 1;
-    emit LogNewDevice(_ledAddress, devices[_ledAddress].index, _status);
+    require(!isDevice(_deviceAddress));
+    devices[_deviceAddress].status = false;
+    devices[_deviceAddress].index = deviceIndex.push(_deviceAddress) - 1;
+    emit LogNewDevice(_deviceAddress, devices[_deviceAddress].index, _status);
     return deviceIndex.length - 1;
   }
   
   /**
    * @dev Removes device from the home network
    */
-  function deleteDevice(address _ledAddress)
+  function deleteDevice(address _deviceAddress)
   public
   onlyOwner
   returns(uint _index)
   {
-    require(!isDevice(_ledAddress)); 
-    uint rowToDelete = devices[_ledAddress].index;
+    require(!isDevice(_deviceAddress)); 
+    uint rowToDelete = devices[_deviceAddress].index;
     address keyToMove = deviceIndex[deviceIndex.length - 1];
     deviceIndex[rowToDelete] = keyToMove;
     devices[keyToMove].index = rowToDelete; 
     deviceIndex.length--;
     emit LogDeleteDevice(
-        _ledAddress, 
+        _deviceAddress, 
         rowToDelete);
     emit LogDeviceUpdate(
         keyToMove, 
@@ -76,47 +78,47 @@ contract DeviceStateManager is Ownable {
   /**
    * @dev Gets device info provied the device address
    */
-  function getDevice(address _ledAddress)
+  function getDevice(address _deviceAddress)
   public
   constant
   returns(uint _index, bool _status)
   {
-    require(!isDevice(_ledAddress));
+    require(!isDevice(_deviceAddress));
     return(
-      devices[_ledAddress].index, 
-      devices[_ledAddress].status);
+      devices[_deviceAddress].index, 
+      devices[_deviceAddress].status);
     
   } 
   
   /**
    * @dev Turn on device
    */
-  function turnOnDevice(address _ledAddress)
+  function turnOnDevice(address _deviceAddress)
   public
   onlyOwner
   returns(bool _success)
   {
-    require(!isDevice(_ledAddress));
-    devices[_ledAddress].status = true;
+    require(!isDevice(_deviceAddress));
+    devices[_deviceAddress].status = true;
     emit LogDeviceOn(
-      _ledAddress, 
-      devices[_ledAddress].index);
+      _deviceAddress, 
+      devices[_deviceAddress].index);
     return true;
   }
   
   /**
    * @dev Turn off device
    */
-  function turnOffDevice(address _ledAddress)
+  function turnOffDevice(address _deviceAddress)
   public
   onlyOwner
   returns(bool _success)
   {
-    require(!isDevice(_ledAddress));
-    devices[_ledAddress].status = false;
+    require(!isDevice(_deviceAddress));
+    devices[_deviceAddress].status = false;
     emit LogDeviceOff(
-      _ledAddress, 
-      devices[_ledAddress].index);
+      _deviceAddress, 
+      devices[_deviceAddress].index);
     return true;
   }
   
@@ -137,7 +139,7 @@ contract DeviceStateManager is Ownable {
   function getDeviceAtIndex(uint _index)
   public
   constant
-  returns(address _ledAddress)
+  returns(address _deviceAddress)
   {
     return deviceIndex[_index];
   }

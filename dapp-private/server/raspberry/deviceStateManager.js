@@ -9,81 +9,47 @@ module.exports = function (web3) {
     const contract = JSON.parse(compiled);
     const abi = contract.abi;
     const address = contract.networks[config.network.id].address;
-    const proxy = web3.eth.contract(abi);
-    const object = proxy.at(address);
+    const instance = new web3.eth.Contract(abi, address);
+    const events = instance.events;
 
-    const eventLogNewDevice = object.LogNewDevice();
-    const eventLogDeviceUpdate = object.LogDeviceUpdate();
-    const eventLogDeviceOn = object.LogDeviceOn();
-    const eventLogDeviceOff = object.LogDeviceOff();
-    const eventLogDeleteDevice = object.LogDeleteDevice();
-
-    eventLogNewDevice.watch((error, result) => {
-        if(!error) {
-            logger.info("Device %s added with status %s", 
-                        result.args._deviceAddress,
-                        result.args._status);
-            logger.debug(result);
-        }
-        else {
-            logger.error(error);
-        }
+    const eventLogNewDevice = events.LogNewDevice;
+    const eventLogDeviceUpdate = events.LogDeviceUpdate;
+    const eventLogDeviceOn = events.LogDeviceOn;
+    const eventLogDeviceOff = events.LogDeviceOff;
+    const eventLogDeleteDevice = events.LogDeleteDevice;
+    
+    eventLogNewDevice().on('data', event => {
+        logger.info("Device %s added with status %s",
+                     event.returnValues._deviceAddress,
+                     event.returnValues._status);
+        logger.debug(event);
     });
 
-    eventLogDeviceUpdate.watch((error, result) => {
-        if(!error) {
-            logger.info("Device %s updated with status %s",
-                        result.args._deviceAddress,
-                        result.args._status);
-            logger.debug(result);
-        }
-        else {
-            logger.error(error);
-        }
+    eventLogDeviceUpdate().on('data', event => {
+        logger.info("Device %s updated with index %s",
+                     event.returnValues._deviceAddress,
+                     event.returnValues._index);
+        logger.debug(event);
     });
 
-    eventLogDeleteDevice.watch((error, result) => {
-        if(!error) {
-            logger.info("Device %s deleted", result.args._deviceAddress);
-            logger.debug(result);
-        }
-        else {
-            logger.error(error);
-        }
+    eventLogDeleteDevice().on('data', event => {
+        logger.info("Device %s deleted",
+                     event.returnValues._deviceAddress);
+        logger.debug(event);
     });
 
-    eventLogDeviceOn.watch((error, result) => {
-        if(!error) {
-            //TODO: Implement turnDeviceOn()
-            logger.info("Device %s is on", result.args._deviceAddress);
-            logger.debug(result);
-        }
-        else {
-            logger.error(error);
-        }
+    eventLogDeviceOn().on('data', event => {
+        //TODO: Implement turnDeviceOn()
+        logger.info("Device %s is on",
+                     event.returnValues._deviceAddress);
+        logger.debug(event);
     });
 
-    eventLogDeviceOff.watch((error, result) => {
-        if(!error) {
-            //TODO: Implement turnDeviceOff()
-            logger.info("Device %s is off",
-                        result.args._deviceAddress,
-                        result.args._status);
-            logger.debug(result);
-        }
-        else {
-            logger.error(error);
-        }
+    eventLogDeviceOff().on('data', event => {
+        //TODO: Implement turnDeviceOff()
+        logger.info("Device %s is off",
+                     event.returnValues._deviceAddress);
+        logger.debug(event);
     });
 
 };
-
-/*-----------------------------Test Code------------------------------------
-LedManager.deployed()
-.then(function(instance) {
-  return instance.addDevice('0x6bd8080b3c2d812f8dcf89a0182fa6a9dd15fda6', 0);
-})
-.then(function(balance) {
-  console.log("got balance", balance);
-});
-----------------------------------------------------------------------------*/

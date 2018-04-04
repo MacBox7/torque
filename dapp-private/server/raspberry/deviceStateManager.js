@@ -17,35 +17,41 @@ module.exports = function (web3) {
     const eventLogDeviceOn = events.LogDeviceOn;
     const eventLogDeviceOff = events.LogDeviceOff;
     const eventLogDeleteDevice = events.LogDeleteDevice;
+
     
-    eventLogNewDevice().on('data', event => {
+    eventLogNewDevice({_deviceAddress: config.account._deviceAddress})
+    .on('data', event => {
         logger.info("Device %s added with status %s",
                      event.returnValues._deviceAddress,
                      event.returnValues._status);
         logger.debug(event);
     });
 
-    eventLogDeviceUpdate().on('data', event => {
+    eventLogDeviceUpdate({_deviceAddress: config.account._deviceAddress})
+    .on('data', event => {
         logger.info("Device %s updated with index %s",
                      event.returnValues._deviceAddress,
                      event.returnValues._index);
         logger.debug(event);
     });
 
-    eventLogDeleteDevice().on('data', event => {
+    eventLogDeleteDevice({_deviceAddress: config.account._deviceAddress})
+    .on('data', event => {
         logger.info("Device %s deleted",
                      event.returnValues._deviceAddress);
         logger.debug(event);
     });
 
-    eventLogDeviceOn().on('data', event => {
+    eventLogDeviceOn({_deviceAddress: config.account._deviceAddress})
+    .on('data', event => {
         //TODO: Implement turnDeviceOn()
         logger.info("Device %s is on",
                      event.returnValues._deviceAddress);
         logger.debug(event);
     });
 
-    eventLogDeviceOff().on('data', event => {
+    eventLogDeviceOff({_deviceAddress: config.account._deviceAddress})
+    .on('data', event => {
         //TODO: Implement turnDeviceOff()
         logger.info("Device %s is off",
                      event.returnValues._deviceAddress);

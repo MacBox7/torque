@@ -10,4 +10,7 @@ geth --identity "miner1" \
      --rpcapi "eth,net,web3" \
      --port 30303 \
      --unlock 0 \
-     --password "/media/ankit/Pandora's Box/torque/private/miner1/password.sec"
+     --password "/media/ankit/Pandora's Box/torque/private/miner1/password.sec" \
+     --ws \
+     --wsorigins="*" \
+     --wsaddr 0.0.0.0

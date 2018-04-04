@@ -59,7 +59,7 @@ contract DeviceStateManager is Ownable {
   onlyOwner
   returns(uint _index)
   {
-    require(!isDevice(_deviceAddress)); 
+    require(isDevice(_deviceAddress)); 
     uint rowToDelete = devices[_deviceAddress].index;
     address keyToMove = deviceIndex[deviceIndex.length - 1];
     deviceIndex[rowToDelete] = keyToMove;
@@ -83,7 +83,7 @@ contract DeviceStateManager is Ownable {
   constant
   returns(uint _index, bool _status)
   {
-    require(!isDevice(_deviceAddress));
+    require(isDevice(_deviceAddress));
     return(
       devices[_deviceAddress].index, 
       devices[_deviceAddress].status);
@@ -98,7 +98,7 @@ contract DeviceStateManager is Ownable {
   onlyOwner
   returns(bool _success)
   {
-    require(!isDevice(_deviceAddress));
+    require(isDevice(_deviceAddress));
     devices[_deviceAddress].status = true;
     emit LogDeviceOn(
       _deviceAddress, 
@@ -114,7 +114,7 @@ contract DeviceStateManager is Ownable {
   onlyOwner
   returns(bool _success)
   {
-    require(!isDevice(_deviceAddress));
+    require(isDevice(_deviceAddress));
     devices[_deviceAddress].status = false;
     emit LogDeviceOff(
       _deviceAddress, 

@@ -3,14 +3,11 @@ const config = require("./config.js");
 const express = require('express');
 const app = express();
 const port = process.env.PORT || config.network.port || 8000;
-const cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require("./logger.js");
 
-const web3 = new Web3();
-web3.setProvider(new web3.providers.HttpProvider(config.network.HttpProvider));
+const web3 = new Web3(config.network.ws);
 
-app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 

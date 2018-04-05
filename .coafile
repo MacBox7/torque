@@ -1,12 +1,14 @@
 [all]
 files = private-contracts/**/*.sol, raspberry-client/*.js, private-contracts/*.json,
-        raspberry-client/*.json, public-contracts/**/*.sol
+        raspberry-client/*.json, public-contracts/**/*.sol,
+        local-blockchain-manager/*.js, local-blockchain-manager/*.json
 ignore =
     private-contracts/node_modules/**/*, private-contracts/build/**/*,
     private-contracts/package-lock.json,
     public-contracts/node_modules/**/*, public-contracts/build/**/*,
     public-contracts/package-lock.json,
     raspberry-client/node_modules/**/*, raspberry-client/package-lock.json
+    local-blockchain-manager/node_modules/**/*
 
 max_line_length = 79
 use_spaces = True
@@ -14,13 +16,14 @@ use_spaces = True
 [all.JavaScript]
 bears = ESLintBear, JSHintBear
 files = private-contracts/**/*.js, public-contracts/**/*.js,
-        raspberry-client/**/*.js
+        raspberry-client/**/*.js, local-blockchain-manager/*.js
 jshint_config = .jshintrc
 
 [all.JSON]
 bears = JSONFormatBear
 files = private-contracts/**/*.json, private-chain/genesis.json,
-        raspberry-client/*.json, public-contracts/*.json
+        raspberry-client/*.json, public-contracts/*.json,
+        local-blockchain-manager/*.json
 default_actions = JSONFormatBear: ApplyPatchAction
 
 [bash]
@@ -29,7 +32,7 @@ files = private-chain/**/*.sh
 
 [all.linelength]
 bears = LineLengthBear
-ignore_length_regex = ^.*https?://
+ignore_length_regex = ^.*(https?://|0x)
 
 [all.LineCounting]
 enabled = False

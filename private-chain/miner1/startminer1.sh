@@ -1,6 +1,6 @@
 geth --identity "miner1" \
      --networkid 42 \
-     --datadir "/media/ankit/Pandora's Box/torque/private/miner1" \
+     --datadir "$PWD" \
      --nodiscover \
      --mine \
      --rpc \
@@ -10,7 +10,7 @@ geth --identity "miner1" \
      --rpcapi "eth,net,web3" \
      --port 30303 \
      --unlock 0 \
-     --password "/media/ankit/Pandora's Box/torque/private/miner1/password.sec" \
+     --password "$PWD/password.sec" \
      --ws \
      --wsorigins="*" \
      --wsaddr 0.0.0.0

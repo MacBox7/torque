@@ -1,48 +1,48 @@
-[Default]
-files = dapp-private/**/*.sol, dapp-private/**/*.js, dapp-private/**/*.json,
-        dapp-public/**/*.sol, dapp-public/**/*.js, dapp-public/**/*.json
+[all]
+files = private-contracts/**/*.sol, raspberry-client/*.js, private-contracts/*.json,
+        raspberry-client/*.json, public-contracts/**/*.sol
 ignore =
-    dapp-private/node_modules/**/*, dapp-private/build/**/*,
-    dapp-private/package-lock.json,
-    dapp-public/node_modules/**/*, dapp-public/build/**/*,
-    dapp-public/package-lock.json
+    private-contracts/node_modules/**/*, private-contracts/build/**/*,
+    private-contracts/package-lock.json,
+    public-contracts/node_modules/**/*, public-contracts/build/**/*,
+    public-contracts/package-lock.json,
+    raspberry-client/node_modules/**/*, raspberry-client/package-lock.json
 
 max_line_length = 79
 use_spaces = True
 
-[JavaScript]
+[all.JavaScript]
 bears = ESLintBear, JSHintBear
-files = dapp-private/**/*.js, dapp-public/**/*.js 
+files = private-contracts/**/*.js, public-contracts/**/*.js,
+        raspberry-client/**/*.js
 jshint_config = .jshintrc
 
-[JSON]
+[all.JSON]
 bears = JSONFormatBear
-files = dapp-private/**/*.json, private/genesis.json,
-        dapp-private/*.json,
-        dapp-public/**/*.json, public/genesis.json,
-        dapp-public/*.json
+files = private-contracts/**/*.json, private-chain/genesis.json,
+        raspberry-client/*.json, public-contracts/*.json
 default_actions = JSONFormatBear: ApplyPatchAction
 
 [bash]
 bears = ShellCheckBear
-files = private/**/*.sh
+files = private-chain/**/*.sh
 
-[linelength]
+[all.linelength]
 bears = LineLengthBear
 ignore_length_regex = ^.*https?://
 
-[LineCounting]
+[all.LineCounting]
 enabled = False
 bears = LineCountBear
 max_lines_per_file = 1000
 
-[DOCS]
+[all.DOCS]
 bears = SpaceConsistencyBear, LineLengthBear
 files = README.md
 ignore_length_regex = ^.*https?://
 default_actions = SpaceConsistencyBear: ApplyPatchAction
 
-[commit]
+[all.commit]
 bears = GitCommitBear
 shortlog_trailing_period = False
 shortlog_regex = ([^:]*|[^:]+: [A-Z0-9*].*)

@@ -1,8 +1,8 @@
 {
-    "name": "dapp-private",
+    "name": "local-blockchain-manager",
     "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
+    "description": "Manages all transactions of the smarthome",
+    "main": "server.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -15,8 +15,5 @@
         "express": "^4.16.2",
         "web3": "^1.0.0-beta.33",
         "winston": "^2.4.0"
-    },
-    "devDependencies": {
-        "truffle": "^4.0.6"
     }
 }

@@ -7,7 +7,7 @@ config.network.ws = "ws://127.0.0.1:8546";
 config.network.port = "8080";
 
 config.path = {};
-config.path.contracts = "../../build/contracts/";
+config.path.contracts = "../private-contracts/build/contracts/";
 
 config.log = {};
 config.log.level = "info";

@@ -23,6 +23,7 @@ config.public.network = {};
 config.public.network.id = "43";
 config.public.network.HttpProvider = "http://localhost:8547";
 config.public.network.ws = "ws://127.0.0.1:8548";
+
 config.public.network.port = "8081";
 
 config.public.path = {};

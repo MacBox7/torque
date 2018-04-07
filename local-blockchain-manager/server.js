@@ -25,5 +25,5 @@ app.use(function (req, res) {
 
 app.listen(port);
 
-logger.info('Local blockchain manager is running on: '+
+logger.info('Local blockchain manager is running on: '+ 
              port);

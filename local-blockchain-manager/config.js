@@ -23,10 +23,11 @@ config.public.network = {};
 config.public.network.id = "43";
 config.public.network.HttpProvider = "http://localhost:8547";
 config.public.network.ws = "ws://127.0.0.1:8548";
-config.public.network.port = "8080";
+
+config.public.network.port = "8081";
 
 config.public.path = {};
-config.public.path.contracts = "../private-contracts/build/contracts/";
+config.public.path.contracts = "../public-contracts/build/contracts/";
 
 config.public.account = {};
 config.public.account.address = "";

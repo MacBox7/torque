@@ -15,17 +15,18 @@ contract DeviceStateManager is Ownable {
     string name;
   }
 
-  mapping(address => Device) private devices;
-  address[] private deviceIndex;
+  mapping(address => Device) public devices;
+  address[] public deviceIndex;
 
   event LogNewDevice(address indexed _deviceAddress,
                      uint _index, bool _status,
-                     bool _isRegulatable, string _name);
+                     bool _isRegulatable,string _name);
   event LogDeviceUpdate(address indexed _deviceAddress,
                         uint _index, bool status);
   event LogDeviceOn(address indexed _deviceAddress, uint _index);
   event LogDeviceOff(address indexed _deviceAddress, uint _index);
   event LogDeleteDevice(address indexed _deviceAddress, uint _index);
+  event DeviceRegulated(address indexed _deviceAddress,uint _regulationValue);
 
   /**
    * @dev Checks if device is part of home network
@@ -43,7 +44,7 @@ contract DeviceStateManager is Ownable {
    * @dev Adds device to home network
    */
   function addDevice(address _deviceAddress, bool _status,
-                     bool _isRegulatable,string _name)
+                     bool _isRegulatable, string _name)
   public
   onlyOwner
   returns(uint _index)
@@ -54,7 +55,7 @@ contract DeviceStateManager is Ownable {
     devices[_deviceAddress].name = _name;
     devices[_deviceAddress].isRegulatable = _isRegulatable;
     emit LogNewDevice(_deviceAddress, devices[_deviceAddress].index,
-                      _status,_isRegulatable,_name);
+                      _status ,_isRegulatable,_name);
     return deviceIndex.length - 1;
   }
 
@@ -94,7 +95,7 @@ contract DeviceStateManager is Ownable {
     return(
       devices[_deviceAddress].index,
       devices[_deviceAddress].status,
-      devices[_deviceAddress].isRegulatable
+      devices[_deviceAddress].isRegulatable,
       devices[_deviceAddress].name);
 
   }
@@ -141,27 +142,18 @@ contract DeviceStateManager is Ownable {
   {
     return deviceIndex.length;
   }
+  
+  /**
+   * @dev Get device information provided the device index
+   */
+  function getDeviceAtIndex(uint _index)
+  public
+  constant
+  returns(address _deviceAddress)
+  {
+    return deviceIndex[_index];
+  }
 
-  /**
-   * @dev Get device information provided the device index
-   */
-  function getDeviceAtIndex(uint _index)
-  public
-  constant
-  returns(address _deviceAddress)
-  {
-    return deviceIndex[_index];
-  }
-  /**
-   * @dev Get device information provided the device index
-   */
-  function getDeviceAtIndex(uint _index)
-  public
-  constant
-  returns(address _deviceAddress)
-  {
-    return deviceIndex[_index];
-  }
   /**
    * @dev Checks if device is regulatbable
    */
@@ -173,6 +165,22 @@ contract DeviceStateManager is Ownable {
     if(!isDevice(_deviceAddress)) return false;
     return ((deviceIndex[devices[_deviceAddress].index] == _deviceAddress)&&
             (devices[_deviceAddress].isRegulatable == true ));
+  }
+
+  /**
+   * @dev Regulate device
+   */
+  function regulateDevice(address _deviceAddress,uint _regulationValue)
+  public
+  onlyOwner
+  returns(bool _success)
+  {
+    require(isDeviceRegulatable(_deviceAddress) &&
+           (_regulationValue>0&&_regulationValue<11));
+    emit DeviceRegulated(
+      _deviceAddress,
+      _regulationValue);
+    return true;
   }
 
 }

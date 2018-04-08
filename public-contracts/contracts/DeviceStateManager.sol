@@ -12,7 +12,7 @@ contract DeviceStateManager is Ownable {
     bool status;
     uint index;
     bool isRegulatable;
-    string name
+    string name;
   }
 
   mapping(address => Device) public devices;
@@ -26,7 +26,7 @@ contract DeviceStateManager is Ownable {
   event LogDeviceOn(address indexed _deviceAddress, uint _index);
   event LogDeviceOff(address indexed _deviceAddress, uint _index);
   event LogDeleteDevice(address indexed _deviceAddress, uint _index);
-  event regulateDevice(address indexed _deviceAddress,uint _regulationValue);
+  event DeviceRegulated(address indexed _deviceAddress,uint _regulationValue);
 
   /**
    * @dev Checks if device is part of home network
@@ -44,7 +44,7 @@ contract DeviceStateManager is Ownable {
    * @dev Adds device to home network
    */
   function addDevice(address _deviceAddress, bool _status,
-                     bool _isRegulatable,string _name)
+                     bool _isRegulatable, string _name)
   public
   onlyOwner
   returns(uint _index)
@@ -54,8 +54,8 @@ contract DeviceStateManager is Ownable {
     devices[_deviceAddress].index = deviceIndex.push(_deviceAddress) - 1;
     devices[_deviceAddress].name = _name;
     devices[_deviceAddress].isRegulatable = _isRegulatable;
-    emit LogNewDevice(_deviceAddress, devices[_deviceAddress].index, _status
-                      ,_isRegulatable,_name);
+    emit LogNewDevice(_deviceAddress, devices[_deviceAddress].index,
+                      _status ,_isRegulatable,_name);
     return deviceIndex.length - 1;
   }
 
@@ -142,6 +142,7 @@ contract DeviceStateManager is Ownable {
   {
     return deviceIndex.length;
   }
+  
   /**
    * @dev Get device information provided the device index
    */
@@ -152,6 +153,7 @@ contract DeviceStateManager is Ownable {
   {
     return deviceIndex[_index];
   }
+
   /**
    * @dev Checks if device is regulatbable
    */
@@ -175,7 +177,7 @@ contract DeviceStateManager is Ownable {
   {
     require(isDeviceRegulatable(_deviceAddress) &&
            (_regulationValue>0&&_regulationValue<11));
-    emit LogDeviceOn(
+    emit DeviceRegulated(
       _deviceAddress,
       _regulationValue);
     return true;

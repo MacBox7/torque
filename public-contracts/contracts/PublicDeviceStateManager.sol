@@ -8,7 +8,7 @@ import './DeviceStateManager.sol';
  */
 contract PublicDeviceStateManager is DeviceStateManager {
 
-  //the address of the homemember contract
+  // The address of the homemember contract
   address homeMemberContractAddress;
 
   event RequestDeviceStateChange(address indexed _deviceAddress,
@@ -35,7 +35,7 @@ contract PublicDeviceStateManager is DeviceStateManager {
   /**
    * @dev Change device state
    */
-  function  requestDeviceStateChange(address _deviceAddress
+  function  requestDeviceStateChange(address _deviceAddress,
                                      bool _changedStatus)
   onlyHomeMember
   public
@@ -48,6 +48,7 @@ contract PublicDeviceStateManager is DeviceStateManager {
       _changedStatus);
     return true;
   }
+
   /**
    * @dev Regulate Device Speed
    */
@@ -64,4 +65,5 @@ contract PublicDeviceStateManager is DeviceStateManager {
       _regulationValue);
     return true;
   }
+  
 }

@@ -25,7 +25,8 @@ module.exports = {
         contractDetails.contract = JSON.parse(contractDetails.compiled);
         contractDetails.abi = contractDetails.contract.abi;
         // TODO: To be changed with entry from config file
-        contractDetails.address = "0x98fba7591d269d32ccb0edd70939f20a71b4da91";
+        contractDetails.address = contractDetails.contract.
+                                  networks[config.private.network.id].address;
         contractDetails.instance = new web3.eth.Contract(contractDetails.abi,
                                                      contractDetails.address);
         contractDetails.methods = contractDetails.instance.methods;

@@ -28,7 +28,7 @@ default_actions = JSONFormatBear: ApplyPatchAction
 
 [bash]
 bears = ShellCheckBear
-files = private-chain/**/*.sh
+files = private-chain/**/*.sh, public-chain/**/*.sh
 
 [all.linelength]
 bears = LineLengthBear

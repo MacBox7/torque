@@ -1,4 +1,4 @@
-geth --identity "miner1" \
+geth --identity "miner" \
      --networkid 42 \
      --datadir "$PWD" \
      --nodiscover \
@@ -12,5 +12,6 @@ geth --identity "miner1" \
      --unlock 0 \
      --password "$PWD/password.sec" \
      --ws \
+     --wsport 8546 \
      --wsorigins="*" \
      --wsaddr 0.0.0.0

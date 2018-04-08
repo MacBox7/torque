@@ -1,6 +1,5 @@
 pragma solidity ^0.4.18;
 
-
 /**
  * @title Ownable
  * @dev The Ownable contract has an owner address,
@@ -11,10 +10,8 @@ pragma solidity ^0.4.18;
 contract Ownable {
   address public owner;
 
-
   event OwnershipTransferred(address indexed _previousOwner,
                              address indexed _newOwner);
-
 
   /**
    * @dev The Ownable constructor sets the original

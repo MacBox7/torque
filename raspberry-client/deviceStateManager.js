@@ -17,6 +17,7 @@ module.exports = function (web3) {
     const eventLogDeviceOn = events.LogDeviceOn;
     const eventLogDeviceOff = events.LogDeviceOff;
     const eventLogDeleteDevice = events.LogDeleteDevice;
+    const eventDeviceRegulated = events.DeviceRegulated;
 
     
     eventLogNewDevice({_deviceAddress: config.account._deviceAddress})
@@ -55,6 +56,15 @@ module.exports = function (web3) {
         //TODO: Implement turnDeviceOff()
         logger.info("Device %s is off",
                      event.returnValues._deviceAddress);
+        logger.debug(event);
+    });
+
+    eventDeviceRegulated({_deviceAddress: config.account._deviceAddress})
+    .on('data', event => {
+        //TODO: Implement turnDeviceOff()
+        logger.info("Device %s is regulated with value %s",
+                     event.returnValues._deviceAddress,
+                     event.returnValues._regulationValue);
         logger.debug(event);
     });
 

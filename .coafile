@@ -1,14 +1,16 @@
 [all]
 files = private-contracts/**/*.sol, raspberry-client/*.js, private-contracts/*.json,
         raspberry-client/*.json, public-contracts/**/*.sol,
-        local-blockchain-manager/*.js, local-blockchain-manager/*.json
+        local-blockchain-manager/*.js, local-blockchain-manager/*.json,
+        mobile-client/*.js, mobile-client/*.json
 ignore =
     private-contracts/node_modules/**/*, private-contracts/build/**/*,
     private-contracts/package-lock.json,
     public-contracts/node_modules/**/*, public-contracts/build/**/*,
     public-contracts/package-lock.json,
     raspberry-client/node_modules/**/*, raspberry-client/package-lock.json
-    local-blockchain-manager/node_modules/**/*
+    local-blockchain-manager/node_modules/**/*, local-blockchain-manager/package-lock.json,
+    mobile-client/node_modules/**/*, mobile-client/package-lock.json
 
 max_line_length = 79
 use_spaces = True
@@ -16,14 +18,15 @@ use_spaces = True
 [all.JavaScript]
 bears = ESLintBear, JSHintBear
 files = private-contracts/**/*.js, public-contracts/**/*.js,
-        raspberry-client/**/*.js, local-blockchain-manager/*.js
+        raspberry-client/**/*.js, local-blockchain-manager/*.js,
+        mobile-client/**/*.js
 jshint_config = .jshintrc
 
 [all.JSON]
 bears = JSONFormatBear
 files = private-contracts/**/*.json, private-chain/genesis.json,
         raspberry-client/*.json, public-contracts/*.json,
-        local-blockchain-manager/*.json
+        local-blockchain-manager/*.json, mobile-client/*.json
 default_actions = JSONFormatBear: ApplyPatchAction
 
 [bash]
@@ -42,7 +45,7 @@ max_lines_per_file = 1000
 [all.DOCS]
 bears = SpaceConsistencyBear, LineLengthBear
 files = README.md
-ignore_length_regex = ^.*https?://
+ignore_length_regex = ^.*(https?://|0x)
 default_actions = SpaceConsistencyBear: ApplyPatchAction
 
 [all.commit]

@@ -15,7 +15,7 @@ module.exports = function (web3Private, web3Public,app) {
         res.send(constant.status.success);
     });
 
-    app.post('/lbm/device',function(req,res){
+    app.post('/device',function(req,res){
         const deviceAddress = req.body.deviceAddress;
         const isRegulatable = req.body.isRegulatable;
         const deviceName = req.body.deviceName;
@@ -47,7 +47,7 @@ module.exports = function (web3Private, web3Public,app) {
 
     });
     
-    app.delete('/lbm/device',function(req,res){    
+    app.delete('/device',function(req,res){    
         const deviceAddress = req.body.deviceAddress;
 
         privateDeviceStateManager.methods
@@ -74,7 +74,7 @@ module.exports = function (web3Private, web3Public,app) {
 
     });
     
-    app.post('lbm/homemember',function(req,res){
+    app.post('/homemember',function(req,res){
         const homeMemberAddress = req.body.homeMemberAddress;
 
         homeMember.methods
@@ -90,7 +90,7 @@ module.exports = function (web3Private, web3Public,app) {
                 });
     });
 
-    app.delete('lbm/homemember',function(req,res){
+    app.delete('/homemember',function(req,res){
         const homeMemberAddress = req.body.homeMemberAddress;
 
         homeMember.methods

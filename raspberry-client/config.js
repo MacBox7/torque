@@ -13,6 +13,6 @@ config.log = {};
 config.log.level = "info";
 
 config.account = {};
-config.account.address = "0xd0aaeDAd691b9eE74CAe9E3C504a47bdE01a0DBD";
+config.account.address = "0x43914d7772c4fe3d39d718f063cc2964b44a638e";
 
 module.exports = config;

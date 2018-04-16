@@ -3,16 +3,16 @@ const constant = require("./constant.js");
 const logger = require("./logger.js");
 const contractDetails = require('./contractDetailsProvider.js');
 
-module.exports = function (web3Private,web3Public) {
+module.exports = (web3Private,web3Public) => {
     const publicDeviceStateManager = contractDetails.returnContractDetails(
                 web3Public,constant.contract.name.PublicDeviceStateManager);
     const privateDeviceStateManager = contractDetails.returnContractDetails(
                 web3Private,constant.contract.name.DeviceStateManager);
 
     const eventRequestDeviceStateChange = publicDeviceStateManager.events
-                                          .requestDeviceStateChange;
+                                          .RequestDeviceStateChange;
     const eventRequestDeviceRegulation = publicDeviceStateManager.events
-                                         .requestDeviceRegulation;
+                                         .RequestDeviceRegulation;
     
     function turnOnDevice(deviceAddress){
         privateDeviceStateManager.methods.turnOnDevice(deviceAddress)

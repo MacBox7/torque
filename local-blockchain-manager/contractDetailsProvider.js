@@ -3,30 +3,34 @@ const config = require("./config.js");
 const constant = require("./constant.js");
 
 module.exports = {
-    mapContractAddress: () => {
-        const contractsAddress=new Map();
-        contractsAddress.set(constant.contract.name.PublicDeviceStateManager,
-                            config.public.path.contracts +
-                            constant.contract.file.PublicDeviceStateManager);
-        contractsAddress.set(constant.contract.name.DeviceStateManager,
-                            config.public.path.contracts +
-                            constant.contract.file.DeviceStateManager);
-        contractsAddress.set(constant.contract.name.HomeMember,
-                            config.public.path.contracts +
-                            constant.contract.file.HomeMember);
-        return contractsAddress;
+    getContractLocation: () => {
+        const contractLocation=new Map();
+        contractLocation.set(constant.contract.name.PublicDeviceStateManager,
+                            [config.public.path.contracts +
+                            constant.contract.file.PublicDeviceStateManager, 
+                            config.public.network.id]);
+        contractLocation.set(constant.contract.name.DeviceStateManager,
+                            [config.private.path.contracts +
+                            constant.contract.file.DeviceStateManager, 
+                            config.private.network.id]);
+        contractLocation.set(constant.contract.name.HomeMember,
+                            [config.public.path.contracts +
+                            constant.contract.file.HomeMember, 
+                            config.public.network.id]);
+        return contractLocation;
     } ,
     returnContractDetails : (web3,contractName) => {
-        let contractsAddress = module.exports.mapContractAddress();
+        let contractLocation = module.exports.getContractLocation();
 
         let contractDetails = {};
-        contractDetails.compiled = fs.readFileSync(contractsAddress
-                                                   .get(contractName));
+        contractDetails.compiled = fs.readFileSync(contractLocation
+                                                   .get(contractName)[0]);
         contractDetails.contract = JSON.parse(contractDetails.compiled);
         contractDetails.abi = contractDetails.contract.abi;
         // TODO: To be changed with entry from config file
         contractDetails.address = contractDetails.contract.
-                                  networks[config.private.network.id].address;
+                                  networks[contractLocation
+                                  .get(contractName)[1]].address;
         contractDetails.instance = new web3.eth.Contract(contractDetails.abi,
                                                      contractDetails.address);
         contractDetails.methods = contractDetails.instance.methods;

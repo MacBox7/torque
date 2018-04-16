@@ -3,7 +3,7 @@ const config = require("./config.js");
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const port = process.env.PORT || config.public.network.port || 8001;
+const port = process.env.PORT || config.network.port || 8001;
 const bodyParser = require('body-parser');
 const logger = require("./logger.js");
 

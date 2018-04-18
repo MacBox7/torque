@@ -27,7 +27,7 @@ contract PublicDeviceStateManager is DeviceStateManager {
    */
   modifier onlyHomeMember() {
   require(homeMemberContractAddress
-         .call(bytes4(keccak256("isAuthorisedUser(address)")),
+         .call(bytes4(keccak256("isMember(address)")),
                msg.sender));
     _;
   }

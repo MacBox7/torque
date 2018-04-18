@@ -76,9 +76,10 @@ module.exports = (web3Private, web3Public,app) => {
 
     app.post('/homemember',(req, res) => {
     const homeMemberAddress = req.body.homeMemberAddress;
+    const homeMemberName = req.body.homeMemberName;
 
     homeMember.methods
-            .addHomeMember(homeMemberAddress)
+            .addMember(homeMemberAddress, homeMemberName)
             .send({from:config.public.account.address})
             .then(result => {
                     logger.debug(result);
@@ -94,7 +95,7 @@ module.exports = (web3Private, web3Public,app) => {
     const homeMemberAddress = req.body.homeMemberAddress;
 
     homeMember.methods
-            .removeHomeMember(homeMemberAddress)
+            .deleteMember(homeMemberAddress)
             .send({from:config.public.account.address, gas:3000000})
             .then(result => {
                     logger.debug(result);

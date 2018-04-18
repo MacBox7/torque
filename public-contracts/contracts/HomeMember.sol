@@ -1,60 +1,122 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.21;
 
-import "./Ownable.sol";
+import './Ownable.sol';
 
 /**
  * @title HomeMember
- * @dev The HomeMember contract has home members addresses,
- * and provides basic authorization control functions.
+ * @dev Manages members of a smart home
  */
-contract HomeMember is Ownable  {
-  mapping (address => bool) homeMember;
+contract HomeMember is Ownable {
 
-  event MemberAdded(address indexed whitelistedMember);
-  event MemberRemoved(address indexed blacklistedMember);
-
-
-  /**
-   * @dev Add a new home member
-   */
-  function HomeMember() public {
-    homeMember[msg.sender] = true;
+  struct Member {
+      string name;
+      uint index;
   }
 
+  mapping(address => Member) public members;
+  address[] public memberIndex;
+
+  event LogNewMember(address indexed _memberAddress,
+                     uint _index, string _name);
+  event LogMemberUpdate(address indexed _memberAddress,
+                        uint _index, string _name);
+  event LogDeleteMember(address indexed _memberAddress, uint _index);
+  
   /**
    * @dev Throws if called by any account other than the home member.
    */
   modifier onlyHomeMember() {
-    require(homeMember[msg.sender]);
+    require(isMember(msg.sender));
     _;
   }
 
   /**
-   * @dev Add a new home member
+   * @dev Checks if member is part of home network
    */
-  function addHomeMember(address _target) onlyOwner public {
-    homeMember[_target] = true;
-    emit MemberAdded(_target);
+  function isMember(address _memberAddress)
+  public
+  constant
+  returns(bool _isIndeed)
+  {
+    if(memberIndex.length == 0) return false;
+    return (memberIndex[members[_memberAddress].index] == _memberAddress);
   }
 
   /**
-   * @dev Unauthrorize an already existing home member
+   * @dev Adds member to home network
    */
-  function removeHomeMember(address _target) onlyOwner public {
-    assert(homeMember[_target]);
-    delete(homeMember[_target]);
-    emit MemberRemoved(_target);
+  function addMember(address _memberAddress, string _name)
+  public
+  onlyOwner
+  returns(uint _index)
+  {
+    require(!isMember(_memberAddress));
+    members[_memberAddress].index = memberIndex.push(_memberAddress) - 1;
+    members[_memberAddress].name = _name;
+    emit LogNewMember(_memberAddress, members[_memberAddress].index ,
+                      _name);
+    return memberIndex.length - 1;
   }
 
   /**
-   * @dev Check if a member is a authorised user
+   * @dev Removes member from the home network
    */
-   function isAuthorisedUser(address _memberAddress)
-   public
-   constant
-   returns(bool _isIndeed)
-   {
-     return homeMember[_memberAddress];
-   }
+  function deleteMember(address _memberAddress)
+  public
+  onlyOwner
+  returns(uint _index)
+  {
+    require(isMember(_memberAddress));
+    uint rowToDelete = members[_memberAddress].index;
+    address keyToMove = memberIndex[memberIndex.length - 1];
+    memberIndex[rowToDelete] = keyToMove;
+    members[keyToMove].index = rowToDelete;
+    memberIndex.length--;
+    emit LogDeleteMember(
+        _memberAddress,
+        rowToDelete);
+    emit LogMemberUpdate(
+        keyToMove,
+        rowToDelete,
+        members[keyToMove].name);
+    return rowToDelete;
+  }
+
+  /**
+   * @dev Gets member info provied the member address
+   */
+  function getMember(address _memberAddress)
+  public
+  constant
+  returns(uint _index, string _name)
+  {
+    require(isMember(_memberAddress));
+    return(
+      members[_memberAddress].index,
+      members[_memberAddress].name);
+
+  }
+
+  /**
+   * @dev Get count of members connected to home network
+   */
+  function getMemberCount()
+  public
+  constant
+  returns(uint _count)
+  {
+    return memberIndex.length;
+  }
+  
+  /**
+   * @dev Get member information provided the member index
+   */
+  function getMemberAtIndex(uint _index)
+  public
+  constant
+  returns(address _memberAddress)
+  {
+    return memberIndex[_index];
+  }
 
 }

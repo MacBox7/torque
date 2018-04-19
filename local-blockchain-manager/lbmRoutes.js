@@ -80,7 +80,7 @@ module.exports = (web3Private, web3Public,app) => {
 
     homeMember.methods
             .addMember(homeMemberAddress, homeMemberName)
-            .send({from:config.public.account.address})
+            .send({from:config.public.account.address, gas:4294967})
             .then(result => {
                     logger.debug(result);
                     res.send(constant.status.success);

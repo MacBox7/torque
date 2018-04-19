@@ -16,11 +16,11 @@ module.exports = (web3Private,web3Public) => {
     
     function turnOnDevice(deviceAddress){
         privateDeviceStateManager.methods.turnOnDevice(deviceAddress)
-            .send({from:config.account.address})
+            .send({from:config.private.account.address, gas:3000000})
             .then(function(result) {
                 logger.debug(result);
                 publicDeviceStateManager.methods.turnOnDevice(deviceAddress)
-                    .send({from:config.account.address})
+                    .send({from:config.public.account.address})
                     .then(function(result) {
                         logger.debug(result);
                     });
@@ -29,11 +29,11 @@ module.exports = (web3Private,web3Public) => {
 
     function turnOffDevice(deviceAddress){
         privateDeviceStateManager.methods.turnOffDevice(deviceAddress)
-            .send({from:config.account.address})
+            .send({from:config.private.account.address, gas:3000000})
             .then(function(result) {
                 logger.debug(result);
                 publicDeviceStateManager.methods.turnOffDevice(deviceAddress)
-                    .send({from:config.account.address})
+                    .send({from:config.public.account.address})
                     .then(function(result) {
                         logger.debug(result);
                     });
@@ -43,7 +43,7 @@ module.exports = (web3Private,web3Public) => {
     function regulateDevice(deviceAddress,regulationValue){
         privateDeviceStateManager.methods.regulateDevice(deviceAddress,
                                                         regulationValue)
-            .send({from:config.account.address})
+            .send({from:config.account.address, gas:3000000})
             .then(function(result) {
                 logger.debug(result);
                 publicDeviceStateManager.methods
@@ -58,6 +58,7 @@ module.exports = (web3Private,web3Public) => {
     //event listen for state change
     eventRequestDeviceStateChange()
     .on('data', event => {
+        logger.info("Device state change requested");
         const changedStatus = event.returnValues._changedStatus;
         const deviceAddress = event.returnValues._deviceAddress;
 

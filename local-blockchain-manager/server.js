@@ -7,8 +7,8 @@ const port = process.env.PORT || config.network.port || 8001;
 const bodyParser = require('body-parser');
 const logger = require("./logger.js");
 
-const web3Private = new Web3(config.private.network.HttpProvider);
-const web3Public = new Web3(config.public.network.HttpProvider);
+const web3Private = new Web3(config.private.network.ws);
+const web3Public = new Web3(config.public.network.ws);
 
 app.use(cors());
 app.use(bodyParser.json());

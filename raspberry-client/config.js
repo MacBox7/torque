@@ -2,8 +2,8 @@ let config = {};
 
 config.network = {};
 config.network.id = "42";
-config.network.HttpProvider = "http://localhost:8545";
-config.network.ws = "ws://127.0.0.1:8546";
+config.network.HttpProvider = "http://192.168.43.153:8545";
+config.network.ws = "ws://192.168.43.153:8546";
 config.network.port = "8080";
 
 config.path = {};

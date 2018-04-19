@@ -13,6 +13,9 @@ config.path.contracts = "../public-contracts/build/contracts/";
 
 // Configuring log information
 config.log = {};
-config.log.level = "info";
+config.log.level = "debug";
+
+config.account = {};
+config.account.address = "0x081aba95fa4dcc0a295a765761ae48c317e71456";
 
 module.exports = config;

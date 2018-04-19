@@ -17,7 +17,7 @@ module.exports = (web3, app) => {
 
         publicDeviceStateManager.methods
             .requestDeviceStateChange(deviceAddress, status)
-            .send({from:config.account.address})
+            .send({from:config.account.address, gas:4294967})
             .then(result => {
                 logger.debug(result);
                 res.send(constant.status.success);
@@ -25,13 +25,13 @@ module.exports = (web3, app) => {
 
     });
     
-    app.post('/regulate',(req, res) => {    
+    app.post('/regulate',(req, res) => {
         const deviceAddress = req.body.deviceAddress;
         const regulationValue = req.body.regulationValue;
 
         publicDeviceStateManager.methods
             .requestDeviceRegulation(deviceAddress, regulationValue)
-            .send({from:config.account.address})
+            .send({from:config.account.address, gas:4994967})
             .then(result => {
                 logger.debug(result);
                 res.send(constant.status.success);
@@ -39,7 +39,7 @@ module.exports = (web3, app) => {
 
     });
 
-    app.get('/device', (req, res) => {
+    app.get('/device',(req, res) => {
         let totalDevices = 0;
         publicDeviceStateManager.methods
             .getDeviceCount().call().then(result => {
@@ -59,7 +59,7 @@ module.exports = (web3, app) => {
             });
     });
 
-    app.get('/device/:address', (req, res) => {
+    app.get('/device/:address',(req, res) => {
         const address = req.params.address;
         publicDeviceStateManager.methods
             .getDevice(address).call().then(result => {

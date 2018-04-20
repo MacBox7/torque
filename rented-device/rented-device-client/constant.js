@@ -1,0 +1,11 @@
+let constant = {};
+
+constant.contract = {};
+
+constant.contract.file = {};
+constant.contract.file.RentedDevice ="RentedDevice.json";
+
+constant.contract.name = {};
+constant.contract.name.RentedDevice = "RentedDevice";
+
+module.exports = constant;

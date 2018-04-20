@@ -2,6 +2,8 @@ const fs = require("fs");
 const config = require("./config.js");
 const constant = require("./constant.js");
 const logger = require("./logger.js");
+const gpio = require('onoff').Gpio;
+const led = new gpio(4, 'out');
 
 module.exports = function (web3) {
     const compiled = fs.readFileSync(config.path.contracts + 
@@ -18,6 +20,35 @@ module.exports = function (web3) {
     const eventLogDeviceOff = events.LogDeviceOff;
     const eventLogDeleteDevice = events.LogDeleteDevice;
     const eventDeviceRegulated = events.DeviceRegulated;
+ 
+    let blinkingModule;
+
+    function blinkLED() { 
+        if (led.readSync() === 0) { 
+          led.writeSync(1); 
+        }
+        else{
+          led.writeSync(0); 
+        }
+    }
+
+    //function for turning on a regulatable device
+    function turnDeviceOn(regulationValue) {
+        blinkingModule=setInterval(blinkLED,regulationValue*100);
+    }
+
+    //function for turning off a regulatble device
+    function turnDeviceOff() {
+        clearInterval(blinkingModule); 
+        led.writeSync(0); 
+    }
+    
+    //function for regulating a regulatable device
+
+    function regulate(regulationValue) {
+        turnDeviceOff();
+        turnDeviceOn(regulationValue);
+    }
 
     
     eventLogNewDevice({_deviceAddress: config.account._deviceAddress})
@@ -45,7 +76,12 @@ module.exports = function (web3) {
 
     eventLogDeviceOn({_deviceAddress: config.account._deviceAddress})
     .on('data', event => {
-        //TODO: Implement turnDeviceOn()
+        if(event.returnValues.isRegulatable == true)
+             turnDeviceOn(5);
+        else{
+            if(led.readSync() === 0)
+                led.writeSync(1);
+        }
         logger.info("Device %s is on",
                      event.returnValues._deviceAddress);
         logger.debug(event);
@@ -53,7 +89,12 @@ module.exports = function (web3) {
 
     eventLogDeviceOff({_deviceAddress: config.account._deviceAddress})
     .on('data', event => {
-        //TODO: Implement turnDeviceOff()
+        if(event.returnValues.isRegulatable == true)
+             turnDeviceOff();
+        else{
+            if(led.readSync() === 1)
+                led.writeSync(0);
+        }
         logger.info("Device %s is off",
                      event.returnValues._deviceAddress);
         logger.debug(event);
@@ -61,7 +102,7 @@ module.exports = function (web3) {
 
     eventDeviceRegulated({_deviceAddress: config.account._deviceAddress})
     .on('data', event => {
-        //TODO: Implement turnDeviceOff()
+        regulate(event.returnValues._regulationValue);
         logger.info("Device %s is regulated with value %s",
                      event.returnValues._deviceAddress,
                      event.returnValues._regulationValue);

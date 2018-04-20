@@ -13,6 +13,7 @@ contract DeviceStateManager is Ownable {
     uint index;
     bool isRegulatable;
     string name;
+    uint regulationValue;
   }
 
   mapping(address => Device) public devices;
@@ -23,8 +24,10 @@ contract DeviceStateManager is Ownable {
                      bool _isRegulatable,string _name);
   event LogDeviceUpdate(address indexed _deviceAddress,
                         uint _index, bool status);
-  event LogDeviceOn(address indexed _deviceAddress, uint _index);
-  event LogDeviceOff(address indexed _deviceAddress, uint _index);
+  event LogDeviceOn(address indexed _deviceAddress, uint _index
+                    bool _isRegulatable);
+  event LogDeviceOff(address indexed _deviceAddress, uint _index
+                    bool _isRegulatable);
   event LogDeleteDevice(address indexed _deviceAddress, uint _index);
   event DeviceRegulated(address indexed _deviceAddress,uint _regulationValue);
 
@@ -54,6 +57,7 @@ contract DeviceStateManager is Ownable {
     devices[_deviceAddress].index = deviceIndex.push(_deviceAddress) - 1;
     devices[_deviceAddress].name = _name;
     devices[_deviceAddress].isRegulatable = _isRegulatable;
+    devices[_deviceAddress].regulationValue = 5;
     emit LogNewDevice(_deviceAddress, devices[_deviceAddress].index,
                       _status ,_isRegulatable,_name);
     return deviceIndex.length - 1;
@@ -96,7 +100,8 @@ contract DeviceStateManager is Ownable {
       devices[_deviceAddress].index,
       devices[_deviceAddress].status,
       devices[_deviceAddress].isRegulatable,
-      devices[_deviceAddress].name);
+      devices[_deviceAddress].name,
+      devices[_deviceAddress].regulationValue);
 
   }
 
@@ -110,9 +115,11 @@ contract DeviceStateManager is Ownable {
   {
     require(isDevice(_deviceAddress));
     devices[_deviceAddress].status = true;
+    devices[_deviceAddress].regulationValue = 5;
     emit LogDeviceOn(
       _deviceAddress,
-      devices[_deviceAddress].index);
+      devices[_deviceAddress].index,
+      devices[_deviceAddress].isRegulatable);
     return true;
   }
 
@@ -126,9 +133,11 @@ contract DeviceStateManager is Ownable {
   {
     require(isDevice(_deviceAddress));
     devices[_deviceAddress].status = false;
+    devices[_deviceAddress].regulationValue = 5;
     emit LogDeviceOff(
       _deviceAddress,
-      devices[_deviceAddress].index);
+      devices[_deviceAddress].index,
+      devices[_deviceAddress].isRegulatable);
     return true;
   }
 
@@ -180,6 +189,7 @@ contract DeviceStateManager is Ownable {
     emit DeviceRegulated(
       _deviceAddress,
       _regulationValue);
+    devices[_deviceAddress].regulationValue = _regulationValue;
     return true;
   }
 

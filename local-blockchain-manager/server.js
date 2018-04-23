@@ -12,6 +12,7 @@ const web3Public = new Web3(config.public.network.ws);
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 
 //Including routes file
 require("./lbmRoutes.js")(web3Private,web3Public,app);

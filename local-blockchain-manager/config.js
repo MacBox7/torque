@@ -34,6 +34,6 @@ config.log = {};
 config.log.level = "debug";
 
 config.network = {};
-config.network.port = 8001;
+config.network.port = 8641;
 
 module.exports = config;

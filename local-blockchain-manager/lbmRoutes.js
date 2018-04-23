@@ -15,6 +15,34 @@ module.exports = (web3Private, web3Public,app) => {
         res.send(constant.status.success);
     });
 
+    app.get('/device',(req, res) => {
+        let totalDevices = 0;
+        publicDeviceStateManager.methods
+            .getDeviceCount().call().then(result => {
+                totalDevices = result;
+                logger.debug("Total devices are: %s", result);
+                let promises = [];
+                for(let index=0; index < totalDevices; index++) {
+                    promises.push(publicDeviceStateManager.methods
+                                 .getDeviceAtIndex(index).call());
+                }
+
+                Promise.all(promises).then(devices => {
+                    logger.debug("Devices are: ");
+                    logger.debug(devices);
+                    res.send(JSON.stringify(devices));
+                });
+            });
+    });
+
+    app.get('/device/:address',(req, res) => {
+        const address = req.params.address;
+        publicDeviceStateManager.methods
+            .getDevice(address).call().then(result => {
+                res.send(JSON.stringify(result));
+            });
+    });
+
     app.post('/device',(req, res) => {
     const deviceAddress = req.body.deviceAddress;
     const isRegulatable = Boolean(req.body.isRegulatable);
@@ -72,6 +100,34 @@ module.exports = (web3Private, web3Public,app) => {
             res.send(constant.status.failure);
         });
 
+    });
+
+    app.get('/homemember',(req, res) => {
+        let totalMembers = 0;
+        homeMember.methods
+            .getMemberCount().call().then(result => {
+                totalMembers = result;
+                logger.debug("Total devices are: %s", result);
+                let promises = [];
+                for(let index=0; index < totalMembers; index++) {
+                    promises.push(homeMember.methods
+                                 .getMemberAtIndex(index).call());
+                }
+
+                Promise.all(promises).then(members => {
+                    logger.debug("Members are: ");
+                    logger.debug(members);
+                    res.send(JSON.stringify(members));
+                });
+            });
+    });
+
+    app.get('/homemember/:address',(req, res) => {
+        const address = req.params.address;
+        homeMember.methods
+            .getMember(address).call().then(result => {
+                res.send(JSON.stringify(result));
+            });
     });
 
     app.post('/homemember',(req, res) => {

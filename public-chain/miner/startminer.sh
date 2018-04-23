@@ -7,7 +7,7 @@ geth --identity "miner" \
      --rpcport 8547 \
      --rpcaddr 127.0.0.1 \
      --rpccorsdomain "*" \
-     --rpcapi "eth,net,web3" \
+     --rpcapi "eth,net,web3,personal" \
      --port 30304 \
      --unlock 0 \
      --password "$PWD/password.sec" \

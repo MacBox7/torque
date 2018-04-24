@@ -5,7 +5,7 @@ geth --identity "miner" \
      --mine \
      --rpc \
      --rpcport 8545 \
-     --rpcaddr 192.168.43.153 \
+     --rpcaddr 192.168.1.105 \
      --rpccorsdomain "*" \
      --rpcapi "eth,net,web3" \
      --port 30303 \

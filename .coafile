@@ -10,7 +10,8 @@ ignore =
     public-contracts/package-lock.json,
     raspberry-client/node_modules/**/*, raspberry-client/package-lock.json
     local-blockchain-manager/node_modules/**/*, local-blockchain-manager/package-lock.json,
-    mobile-client/node_modules/**/*, mobile-client/package-lock.json
+    mobile-client/node_modules/**/*, mobile-client/package-lock.json,
+    raspberry-client/package-lock.json
 
 max_line_length = 79
 use_spaces = True

@@ -44,37 +44,36 @@ module.exports = function (web3) {
     }
     
     //function for regulating a regulatable device
-
     function regulate(regulationValue) {
         turnDeviceOff();
         turnDeviceOn(regulationValue);
     }
 
     
-    eventLogNewDevice({_deviceAddress: config.account._deviceAddress})
+    eventLogNewDevice({filter: {_deviceAddress: config.account.address}})
     .on('data', event => {
-        logger.info("Device %s added with status %s",
+        logger.info("Device %s added with status %d",
                      event.returnValues._deviceAddress,
                      event.returnValues._status);
         logger.debug(event);
     });
 
-    eventLogDeviceUpdate({_deviceAddress: config.account._deviceAddress})
+    eventLogDeviceUpdate({filter: {_deviceAddress: config.account.address}})
     .on('data', event => {
-        logger.info("Device %s updated with index %s",
+        logger.info("Device %s updated with index %d",
                      event.returnValues._deviceAddress,
                      event.returnValues._index);
         logger.debug(event);
     });
 
-    eventLogDeleteDevice({_deviceAddress: config.account._deviceAddress})
+    eventLogDeleteDevice({filter: {_deviceAddress: config.account.address}})
     .on('data', event => {
         logger.info("Device %s deleted",
                      event.returnValues._deviceAddress);
         logger.debug(event);
     });
 
-    eventLogDeviceOn({_deviceAddress: config.account._deviceAddress})
+    eventLogDeviceOn({filter: {_deviceAddress: config.account.address}})
     .on('data', event => {
         if(event.returnValues.isRegulatable == true)
              turnDeviceOn(5);
@@ -87,7 +86,7 @@ module.exports = function (web3) {
         logger.debug(event);
     });
 
-    eventLogDeviceOff({_deviceAddress: config.account._deviceAddress})
+    eventLogDeviceOff({filter: {_deviceAddress: config.account.address}})
     .on('data', event => {
         if(event.returnValues.isRegulatable == true)
              turnDeviceOff();
@@ -100,10 +99,10 @@ module.exports = function (web3) {
         logger.debug(event);
     });
 
-    eventDeviceRegulated({_deviceAddress: config.account._deviceAddress})
+    eventDeviceRegulated({filter: {_deviceAddress: config.account.address}})
     .on('data', event => {
         regulate(event.returnValues._regulationValue);
-        logger.info("Device %s is regulated with value %s",
+        logger.info("Device %s is regulated with value %d",
                      event.returnValues._deviceAddress,
                      event.returnValues._regulationValue);
         logger.debug(event);

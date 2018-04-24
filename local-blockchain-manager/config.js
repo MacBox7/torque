@@ -5,8 +5,8 @@ config.private = {};
 
 config.private.network = {};
 config.private.network.id = "42";
-config.private.network.HttpProvider = "http://192.168.43.153:8545";
-config.private.network.ws = "ws://192.168.43.153:8546";
+config.private.network.HttpProvider = "http://192.168.1.105:8545";
+config.private.network.ws = "ws://192.168.1.105:8546";
 
 config.private.path = {};
 config.private.path.contracts = "../private-contracts/build/contracts/";
@@ -20,8 +20,8 @@ config.public = {};
 
 config.public.network = {};
 config.public.network.id = "43";
-config.public.network.HttpProvider = "http://192.168.43.153:8547";
-config.public.network.ws = "ws://192.168.43.153:8548";
+config.public.network.HttpProvider = "http://192.168.1.105:8547";
+config.public.network.ws = "ws://192.168.1.105:8548";
 
 config.public.path = {};
 config.public.path.contracts = "../public-contracts/build/contracts/";

@@ -3,8 +3,8 @@ let config = {};
 // Configuring public network
 config.network = {};
 config.network.id = "43";
-config.network.HttpProvider = "http://localhost:8547";
-config.network.ws = "ws://127.0.0.1:8548";
+config.network.HttpProvider = "http://192.168.1.105:8547";
+config.network.ws = "ws://192.168.1.105:8548";
 
 config.network.port = "8081";
 
